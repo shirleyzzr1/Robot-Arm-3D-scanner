@@ -187,7 +187,7 @@ class Mover():
     def fusion_cback(self,req):
         for i in range(4):
             joint_goal = self.move_group.get_current_joint_values()
-            joint_goal[5]+=(pi/4)*(i+1)
+            joint_goal[5]+=(pi/8)*(i+1)
             plan = self.move_group.go(joint_goal,wait=True)
             #make sure you there is no residual movement
             self.move_group.stop()
