@@ -12,11 +12,13 @@
 class Message_handle{
 public:
     ros::Publisher pcl_pub;
-
+    sensor_msgs::PointCloud2 output;
+    int get_pc_flag;
     void pc_callback(const realsense_reader::PointCloudArray::ConstPtr& cloudMsgs);
 };
 void Message_handle::pc_callback(const realsense_reader::PointCloudArray::ConstPtr& cloudMsgs){
-
+    ROS_INFO("get the pointcloud2");
+    this->get_pc_flag=1;
     pcl::PCLPointCloud2* fused_cloud = new pcl::PCLPointCloud2;
     for(int i=0;i<cloudMsgs->clouds.size();i++){
         pcl::PCLPointCloud2* cloud = new pcl::PCLPointCloud2;
@@ -37,13 +39,11 @@ void Message_handle::pc_callback(const realsense_reader::PointCloudArray::ConstP
         // sor.filter (cloud_filtered);
 
     }
-    pcl::io::save("test_fusion.bin", *fused_cloud);
+    // automatically saved to ~/.ros
+    pcl::io::save("test_fusion.pcd", *fused_cloud);
     // Convert to ROS data type
-    sensor_msgs::PointCloud2 output;
-    pcl_conversions::moveFromPCL(*fused_cloud, output);
+    pcl_conversions::moveFromPCL(*fused_cloud, this->output);
 
-    //Publish the data
-    pcl_pub.publish (output);
 }
 int main(int argc, char ** argv){
     ros::init(argc,argv,"pcl_process");
@@ -51,8 +51,17 @@ int main(int argc, char ** argv){
     Message_handle msgh;
 
     ros::Subscriber pc_sub= n.subscribe("/pc_to_fuse",1000,&Message_handle::pc_callback,&msgh);
-    // msgh.pcl_pub = n.advertise<sensor_msgs::PointCloud2>("/fused_pc", 1);
+    msgh.pcl_pub = n.advertise<sensor_msgs::PointCloud2>("/fused_pc", 1);
+    msgh.get_pc_flag=0;
+    ros::Rate loop_rate(100);
+    while(ros::ok()){
+        //Publish the data
+        if(msgh.get_pc_flag)
+            msgh.pcl_pub.publish (msgh.output);
+        ros::spinOnce();
 
-    ros::spin();
+    }
+
+    // ros::spin();
     return 0;
 }

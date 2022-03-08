@@ -40,12 +40,14 @@ class Reader():
             self.state = State.START
         elif msg.data=="finish_all":
             self.state = State.END
+            self.fusion_flag=True
+
         return EmptyResponse()
     
     def main_loop(self,event=None):
         # while not rospy.is_shutdown:
         try:
-            self.trans = self.tfBuffer.lookup_transform("camera", "object", rospy.Time(0))
+            self.trans = self.tfBuffer.lookup_transform("camera_depth_frame", "object", rospy.Time(0))
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             pass
         if self.state==State.START:
@@ -53,7 +55,6 @@ class Reader():
             print("get one pc")
             newpc = do_transform_cloud(self.curpc,self.trans)
             self.pc_fusion.append(newpc)
-            self.fusion_flag=True
             self.state = State.END
         elif self.state==State.END:
             #fuse the pointcloud, make sure it only be called once 
