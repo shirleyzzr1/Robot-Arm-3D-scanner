@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="simulation" default="false" />
+  <arg name="simulation" default="true" />
   
   <!-- load robot description -->
   <param name="robot_description"
@@ -66,8 +66,11 @@
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find adroit_move)/rviz/basic.rviz"/>
 
+  <!-- load yaml file into rosparam -->
+  <rosparam command="load" file="$(find adroit_move)/config/basic_control.yaml" />
+
   <!--publish a static transform from world to odom-->
-  <node pkg="tf" type="static_transform_publisher" name="camera_baselink" args="0 0 0 0 0 0 1 camera base_link 100"/>  
+  <node pkg="tf" type="static_transform_publisher" name="camera_baselink" args="0 0 0 0 0 0 1 camera_depth_frame base_link 100"/>  
 
   <!--publish a static transform from world to odom-->
   <node pkg="tf" type="static_transform_publisher" name="ee_camera" args="0 0 0 0 0 0 1 endpoint_link object 100"/>    

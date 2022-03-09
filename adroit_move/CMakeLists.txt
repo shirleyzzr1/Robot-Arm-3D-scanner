@@ -54,7 +54,7 @@ add_service_files(
   FILES
   step.srv
   run_once.srv
-  clear_waypoints.srv
+  reset.srv
 )
 
 ## Generate actions in the 'action' folder
