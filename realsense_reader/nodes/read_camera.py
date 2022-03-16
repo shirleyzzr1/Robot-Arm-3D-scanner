@@ -53,7 +53,8 @@ class Reader():
         if self.state==State.START:
             rospy.loginfo("get one pc")
             print("get one pc")
-            newpc = do_transform_cloud(self.curpc,self.trans)
+            # newpc = do_transform_cloud(self.curpc,self.trans)
+            newpc = self.curpc
             self.pc_fusion.append(newpc)
             self.state = State.END
         elif self.state==State.END:
