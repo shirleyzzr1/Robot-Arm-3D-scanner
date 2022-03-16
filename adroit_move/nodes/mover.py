@@ -75,6 +75,7 @@ class Mover():
         # self.run_once = rospy.get_param("~run_once")
         self.waypoints = rospy.get_param("/waypoints")
         self.gripper_state = rospy.get_param("/gripper")
+        self.gripper_strength = rospy.get_param("/gripper_strength")
         #define the service here
         self.reset = rospy.Service("reset",reset,self.reset_cback)
         self.step = rospy.Service("step",step,self.step_cback)
@@ -106,7 +107,7 @@ class Mover():
         self.move_group.clear_pose_targets()
         success_flag = True
         if gripper:
-            self.gripper_pub.publish(0.2)
+            self.gripper_pub.publish(self.gripper_strength)
         else:
             self.gripper_pub.publish(1.0)
         print("current state")
@@ -152,11 +153,12 @@ class Mover():
         return EmptyResponse()
 
     def reset_cback(self,req):
-        self.go_to_joint_goal([-pi/2+0.1,0,0,0,-pi/3,0],req.gripper)
+        self.go_to_joint_goal([-pi/2+0.1,0,0,0,-pi/3,-1.5*pi],req.gripper)
         return True
 
     def fusion_cback(self,req):
-        for i in range(4):
+        self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
+        for i in range(6):
             joint_goal = self.move_group.get_current_joint_values()
             joint_goal[5]+=(pi/8)*(i+1)
             plan = self.move_group.go(joint_goal,wait=True)

@@ -7,6 +7,7 @@ Panels:
         - /MotionPlanning1
         - /MotionPlanning1/Planning Request1
         - /TF1
+        - /TF1/Frames1
         - /RobotModel1
         - /RobotModel1/Links1/elbow_box_link1
         - /RobotModel1/Links1/endpoint_link1
@@ -328,9 +329,19 @@ Visualization Manager:
       Frame Timeout: 1
       Frames:
         All Enabled: false
+        TAG1:
+          Value: false
         base_link:
           Value: true
-        camera:
+        camera_color_frame:
+          Value: false
+        camera_color_optical_frame:
+          Value: false
+        camera_depth_frame:
+          Value: false
+        camera_depth_optical_frame:
+          Value: false
+        camera_link:
           Value: false
         distal_tube_link:
           Value: false
@@ -379,32 +390,39 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        camera:
-          base_link:
-            pedestal_link:
-              drive1_link:
-                drive2_link:
-                  proximal_tube_link:
-                    drive3_housing_link:
-                      drive3_link:
-                        elbow_box_link:
-                          drive4_housing_link:
-                            drive4_link:
-                              distal_tube_link:
-                                drive5_housing_link:
-                                  drive5_link:
-                                    drive6_housing_link:
-                                      drive6_link:
-                                        pincer_housing_link:
-                                          endpoint_link:
-                                            object:
-                                              {}
-                                          pincer_output:
-                                            {}
-                                          pincerfinger_left_link:
-                                            {}
-                                          pincerfinger_right_link:
-                                            {}
+        camera_link:
+          camera_color_frame:
+            camera_color_optical_frame:
+              {}
+          camera_depth_frame:
+            TAG1:
+              base_link:
+                pedestal_link:
+                  drive1_link:
+                    drive2_link:
+                      proximal_tube_link:
+                        drive3_housing_link:
+                          drive3_link:
+                            elbow_box_link:
+                              drive4_housing_link:
+                                drive4_link:
+                                  distal_tube_link:
+                                    drive5_housing_link:
+                                      drive5_link:
+                                        drive6_housing_link:
+                                          drive6_link:
+                                            pincer_housing_link:
+                                              endpoint_link:
+                                                object:
+                                                  {}
+                                              pincer_output:
+                                                {}
+                                              pincerfinger_left_link:
+                                                {}
+                                              pincerfinger_right_link:
+                                                {}
+            camera_depth_optical_frame:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -532,7 +550,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 1.4723639488220215
+      Distance: 2.9061853885650635
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
