@@ -13,6 +13,7 @@
 #include "tf2_ros/transform_listener.h"
 #include "geometry_msgs/TransformStamped.h"
 #include <pcl/io/auto_io.h>
+#include <string>
 class Message_handle{
 public:
     ros::Publisher pcl_pub;
@@ -34,7 +35,6 @@ void Message_handle::pc_callback(const realsense_reader::PointCloudArray::ConstP
     pcl::PCLPointCloud2* fused_cloud = new pcl::PCLPointCloud2;
     for(int i=0;i<cloudMsgs->clouds.size();i++){
         pcl::PCLPointCloud2* cloud = new pcl::PCLPointCloud2;
- 
         // Convert to PCL data type
         pcl_conversions::toPCL(cloudMsgs->clouds[i], *cloud);
         std::string filename = "to_fuse_"+std::to_string(i)+".pcd";
@@ -43,14 +43,35 @@ void Message_handle::pc_callback(const realsense_reader::PointCloudArray::ConstP
 
         // Convert to PCL data type
         // pcl_conversions::toPCL(cloudMsgs->clouds[i], cloud);
-
         //fuse all the pointcloud
         *fused_cloud += *cloud;
-        // // Perform the actual filtering
+        // Perform the actual filtering
         // pcl::VoxelGrid<pcl::PCLPointCloud2> sor;
         // sor.setInputCloud (cloudPtr);
         // sor.setLeafSize (0.1, 0.1, 0.1);
         // sor.filter (cloud_filtered);
+
+        // pcl::PCLPointCloud2* cloud = new pcl::PCLPointCloud2;
+        // pcl::PCLPointCloud2* cloud_filtered = new pcl::PCLPointCloud2;
+
+        // pcl_conversions::toPCL(cloudMsgs->clouds[i], *cloud);
+        // std::string filename = "cur_"+std::to_string(i)+".pcd";
+        // pcl::io::save(filename, *cloud);
+
+        // pcl::PCLPointCloud2ConstPtr cloudPtr(cloud);
+        // pcl::CropBox<pcl::PCLPointCloud2> crop;
+        // double center_x = this->transformStamped.transform.translation.x;
+        // double center_y = this->transformStamped.transform.translation.y;
+        // double center_z = this->transformStamped.transform.translation.z;
+
+        // crop.setInputCloud(cloudPtr);
+        // crop.setMin(Eigen::Vector4f(center_x-0.4,center_y-0.4,center_z-0.3,1.0));
+        // crop.setMax(Eigen::Vector4f(center_x+0.4,center_y+0.4,center_z+0.3,1.0));
+        // crop.filter(*cloud_filtered);
+
+        // filename = "filtered_"+std::to_string(i)+".pcd";
+        // pcl::io::save(filename, *cloud_filtered);
+        // *fused_cloud += *cloud_filtered;
 
     }
     // automatically saved to ~/.ros
@@ -76,7 +97,7 @@ bool Message_handle::save_pc_callback(realsense_reader::savepc::Request &req,rea
 
     crop.setInputCloud(cloudPtr);
     crop.setMin(Eigen::Vector4f(center_x-0.4,center_y-0.4,center_z-0.3,1.0));
-    crop.setMax(Eigen::Vector4f(center_x+0.4,center_y+0.4,center_z+0.3,1.0));
+    crop.setMax(Eigen::Vector4f(center_x+0.,center_y+0.4,center_z+0.3,1.0));
     crop.filter(*cloud_filtered);
 
     filename = "filtered_"+req.filename+".pcd";
@@ -103,7 +124,7 @@ int main(int argc, char ** argv){
     while(ros::ok()){
         //Publish the data
         try{
-            msgh.transformStamped = msgh.tfBuffer.lookupTransform("camera_depth_frame", "object",
+            msgh.transformStamped = msgh.tfBuffer.lookupTransform("camera_depth_optical_frame", "object",
                                   ros::Time(0));
             // ROS_WARN("get transform");
         }

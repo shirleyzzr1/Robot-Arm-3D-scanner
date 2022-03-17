@@ -6,6 +6,7 @@ from tf2_sensor_msgs.tf2_sensor_msgs import do_transform_cloud
 from realsense_reader.msg import PointCloudArray
 from enum import Enum, auto
 from std_srvs.srv import Empty,EmptyResponse
+from geometry_msgs.msg import TransformStamped,Vector3
 class State(Enum):
     """ The state of the control loop 
         These are different modes that the controller can be in
@@ -35,7 +36,7 @@ class Reader():
         return EmptyResponse()
     def armstate_callback(self,msg):
         print("msg",msg)
-        if msg.data=="finish_one":
+        if msg.data=="finish_one":                
             print("state_start")
             self.state = State.START
         elif msg.data=="finish_all":
@@ -47,14 +48,25 @@ class Reader():
     def main_loop(self,event=None):
         # while not rospy.is_shutdown:
         try:
-            self.trans = self.tfBuffer.lookup_transform("camera_depth_frame", "object", rospy.Time(0))
+            # self.trans = self.tfBuffer.lookup_transform("camera_depth_frame", "object", rospy.Time(0))
+            self.trans = self.tfBuffer.lookup_transform("camera_depth_optical_frame", "object", rospy.Time(0))
+            # self.trans = self.tfBuffer.lookup_transform("object", "camera_depth_optical_frame",rospy.Time(0))
+            # self.trans2 = self.tfBuffer.lookup_transform("first_step")
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             pass
+    
         if self.state==State.START:
+
             rospy.loginfo("get one pc")
             print("get one pc")
+            print(self.trans)
+            self.trans.__invert__
+            # self.trans.transform.translation = Vector3(0,0,0)
             # newpc = do_transform_cloud(self.curpc,self.trans)
+            
+            print("self.trans",self.trans)
             newpc = self.curpc
+            print("newpc",newpc)
             self.pc_fusion.append(newpc)
             self.state = State.END
         elif self.state==State.END:
@@ -63,8 +75,8 @@ class Reader():
                 print("fusion")
                 self.pc_pub.publish(self.pc_fusion)
                 self.fusion_flag=False
-        
-            # self.rate.sleep()
+                self.pc_fusion = []
+                # self.rate.sleep()
             
 if __name__=="__main__":
     rospy.init_node("read_camera")

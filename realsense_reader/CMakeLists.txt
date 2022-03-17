@@ -192,6 +192,8 @@ catkin_install_python(PROGRAMS
 
 add_executable(pcl_process nodes/pcl_process.cpp)
 target_link_libraries(pcl_process ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+add_executable(pcl_new nodes/pcl_new.cpp)
+target_link_libraries(pcl_new ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 #############
 ## Testing ##
 #############

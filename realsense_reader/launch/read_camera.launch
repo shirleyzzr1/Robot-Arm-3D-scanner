@@ -2,7 +2,7 @@
   <arg name="serial_no"             default=""/>
   <arg name="json_file_path"        default=""/>
   <arg name="camera"                default="camera"/>
-  <arg name="use_rviz"              default="true"/>
+  <arg name="use_rviz"              default="false"/>
 
 
   <!-- <node name="read_camera" pkg="realsense_reader" type="read_camera.py" output="screen"> -->
@@ -36,14 +36,16 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense_reader)/rviz/basic.rviz" 
         if="$(eval arg('use_rviz') == true)"/>
 
-  <node name = "read_camera" pkg = "realsense_reader" type="read_camera.py" output="screen"/>
+  <!-- <node name = "read_camera" pkg = "realsense_reader" type="read_camera.py" output="screen"/> -->
 
   <!-- <node name = "publish_armstate" pkg = "realsense_reader" type="publish_armstate.py" output="screen"/>-->
 
   <!--pcl process to deal with point cloud related algorightm-->
-  <node name = "pcl_process" pkg="realsense_reader" type="pcl_process" output="screen"/>
+  <!-- <node name = "pcl_process" pkg="realsense_reader" type="pcl_process" output="screen"/> -->
 
-  <!-- <node pkg="tf" type="static_transform_publisher" name="camera_object" args="0 0 0 0 0 0 1 camera_depth_frame object 100"/>     -->
+  <!-- <node name = "pcl_new" pkg="realsense_reader" type="pcl_new" output="screen"/> -->
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="camera_object" args="0 0 0 0 0 0 1 camera_depth_optical_frame object 100"/>     -->
 
 
 </launch>

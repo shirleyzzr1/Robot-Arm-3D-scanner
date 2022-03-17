@@ -149,7 +149,7 @@ class Mover():
             for i in range(len(self.waypoints)):
                 self.go_to_pos_goal(Vector3(self.waypoints[i][0],self.waypoints[i][1],self.waypoints[i][2]),\
                     self.gripper_state[i])
-            self.go_to_joint_goal([0,0,57/180*pi,0,0,0],True)
+            # self.go_to_joint_goal([0,0,57/180*pi,0,0,0],True)
         return EmptyResponse()
 
     def reset_cback(self,req):
@@ -158,9 +158,9 @@ class Mover():
 
     def fusion_cback(self,req):
         self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
-        for i in range(6):
+        for i in range(10):
             joint_goal = self.move_group.get_current_joint_values()
-            joint_goal[5]+=(pi/8)*(i+1)
+            joint_goal[5]+=(pi/5)
             plan = self.move_group.go(joint_goal,wait=True)
             #make sure you there is no residual movement
             self.move_group.stop()
