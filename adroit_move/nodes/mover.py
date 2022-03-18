@@ -157,10 +157,10 @@ class Mover():
         return True
 
     def fusion_cback(self,req):
-        self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
-        for i in range(10):
+        # self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
+        for i in range(6):
             joint_goal = self.move_group.get_current_joint_values()
-            joint_goal[5]+=(pi/5)
+            joint_goal[5]-=(pi/5)
             plan = self.move_group.go(joint_goal,wait=True)
             #make sure you there is no residual movement
             self.move_group.stop()
