@@ -1,3 +1,0 @@
-<launch>
-  <node name = "read_camera" pkg = "realsense_reader" type="read_camera.py" output="screen"/>
-</launch>

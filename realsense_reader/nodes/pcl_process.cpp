@@ -19,7 +19,6 @@ public:
     ros::Publisher pcl_pub;
     ros::ServiceServer save_pc;
     sensor_msgs::PointCloud2 cur_pc;
-
     sensor_msgs::PointCloud2 output;
     tf2_ros::Buffer tfBuffer;
     geometry_msgs::TransformStamped transformStamped;

@@ -43,7 +43,7 @@
   <!--pcl process to deal with point cloud related algorightm-->
   <!-- <node name = "pcl_process" pkg="realsense_reader" type="pcl_process" output="screen"/> -->
 
-  <!-- <node name = "pcl_new" pkg="realsense_reader" type="pcl_new" output="screen"/> -->
+  <node name = "pcl_new" pkg="realsense_reader" type="pcl_new" output="screen"/>
 
   <!-- <node pkg="tf" type="static_transform_publisher" name="camera_object" args="0 0 0 0 0 0 1 camera_depth_optical_frame object 100"/>     -->
 

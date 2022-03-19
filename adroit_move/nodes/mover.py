@@ -1,4 +1,20 @@
 #! /usr/bin/env python
+"""
+using moveit to control the robot arm and publish the current state
+for pointcloud fusion
+Publishers:
+    /hdt_arm/pincer_joint_position_controller/command(Float64): control the robot gripper state
+    /arm_state(String): the current state of the robot arm 
+Parameters:
+    waypoints: the list of waypoints for robot arm to follow
+    gripper: the list of gripper states during the moving process
+    gripper_strength: the amount gripper close
+Services:
+    reset(reset): reset the robot arm to the default state
+    step(step): set a pose target
+    follow(Empty): follow a list of waypoints
+    start_fusion(Empty): start sending fusion message
+"""
 import sys
 from time import sleep
 import moveit_commander
