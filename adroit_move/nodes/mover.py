@@ -91,12 +91,15 @@ class Mover():
         # self.run_once = rospy.get_param("~run_once")
         self.waypoints = rospy.get_param("/waypoints")
         self.gripper_state = rospy.get_param("/gripper")
+        self.gripper_state_inv = rospy.get_param("/gripper_inv")
+
         self.gripper_strength = rospy.get_param("/gripper_strength")
         #define the service here
         self.reset = rospy.Service("reset",reset,self.reset_cback)
         self.step = rospy.Service("step",step,self.step_cback)
-        self.follow = rospy.Service("follow",Empty,self.follow_cback)
+        self.follow = rospy.Service("follow",reset,self.follow_cback)
         self.fusion = rospy.Service("start_fusion",Empty,self.fusion_cback)
+        self.follow_proxy = rospy.ServiceProxy("follow",reset)
         self.reset_proxy = rospy.ServiceProxy("reset",reset)
         # self.gripper = rospy.Service("control_gripper",control_gripper,self.grip_cback)
         self.gripper_pub = rospy.Publisher("/hdt_arm/pincer_joint_position_controller/command",Float64,queue_size = 100)
@@ -110,7 +113,7 @@ class Mover():
         #     self.add_box(box_name,pos=[0.54,0.54,0.60],size = (0.115,0.115,0.06))
 
         self.add_box("ground",pos=[0,-0.5,-0.38],size = (0.6,0.6,0.12))
-        self.add_box("object",pos=[0,-0.5,-0.3],size=(0.05,0.05,0.06))
+        self.add_box("object",pos=[0.04,-0.48,-0.29],size=(0.06,0.06,0.06))
 
 
     def go_to_pos_goal(self,pos,gripper):
@@ -122,14 +125,15 @@ class Mover():
         self.move_group.stop()
         self.move_group.clear_pose_targets()
         success_flag = True
+        print("gripper",gripper)
         if gripper:
             self.gripper_pub.publish(self.gripper_strength)
         else:
             self.gripper_pub.publish(1.0)
-        print("current state")
-        print(self.robot.get_current_state())
-        print("current pos")
-        print(self.move_group.get_current_pose())
+        # print("current state")
+        # print(self.robot.get_current_state())
+        # print("current pos")
+        # print(self.move_group.get_current_pose())
         return success_flag
 
     def go_to_joint_goal(self,joint,gripper):
@@ -162,21 +166,31 @@ class Mover():
         if len(self.waypoints)==0:
             rospy.loginfo("no waypoints to follow!")
         else:
+            if req.gripper:
+                gripper_st = self.gripper_state_inv
+            else:
+                gripper_st=self.gripper_state
             for i in range(len(self.waypoints)):
+                print("gripper_st",gripper_st[i])
                 self.go_to_pos_goal(Vector3(self.waypoints[i][0],self.waypoints[i][1],self.waypoints[i][2]),\
-                    self.gripper_state[i])
+                    gripper_st[i])
             # self.go_to_joint_goal([0,0,57/180*pi,0,0,0],True)
-        return EmptyResponse()
+        return True
 
     def reset_cback(self,req):
+        if not req.gripper:
+            self.gripper_pub.publish(1.0)
         self.go_to_joint_goal([-pi/2+0.1,0,0,0,-pi/3,-1.5*pi],req.gripper)
         return True
 
     def fusion_cback(self,req):
-        # self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
-        for i in range(6):
+        self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-1.5*pi],True)
+        self.reset_proxy(False)
+        self.follow_proxy(False)
+        self.go_to_joint_goal([-pi/4,-pi/6,pi/3,pi,-pi/2,-pi],True)
+        for i in range(8):
             joint_goal = self.move_group.get_current_joint_values()
-            joint_goal[5]-=(pi/5)
+            joint_goal[5]+=(pi/5)
             plan = self.move_group.go(joint_goal,wait=True)
             #make sure you there is no residual movement
             self.move_group.stop()
@@ -184,6 +198,8 @@ class Mover():
             self.move_group.clear_pose_targets()
             sleep(0.1)
         self.arm_pub.publish("finish_all")
+        self.reset_proxy(True)
+        self.follow_proxy(True)
 
         return EmptyResponse()
         

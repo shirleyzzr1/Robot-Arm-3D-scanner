@@ -4,11 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
+        - /Status1
         - /MotionPlanning1
-        - /MotionPlanning1/Planning Request1
-        - /TF1
         - /TF1/Frames1
-        - /RobotModel1
         - /RobotModel1/Links1/elbow_box_link1
         - /RobotModel1/Links1/endpoint_link1
         - /RobotModel1/Links1/endpoint_link1/Position1
@@ -371,6 +370,10 @@ Visualization Manager:
           Value: false
         object:
           Value: false
+        object2:
+          Value: false
+        object3:
+          Value: false
         pedestal_link:
           Value: false
         pincer_housing_link:
@@ -392,37 +395,38 @@ Visualization Manager:
       Tree:
         camera_link:
           camera_color_frame:
-            camera_color_optical_frame:
-              {}
+            {}
           camera_depth_frame:
-            TAG1:
-              base_link:
-                pedestal_link:
-                  drive1_link:
-                    drive2_link:
-                      proximal_tube_link:
-                        drive3_housing_link:
-                          drive3_link:
-                            elbow_box_link:
-                              drive4_housing_link:
-                                drive4_link:
-                                  distal_tube_link:
-                                    drive5_housing_link:
-                                      drive5_link:
-                                        drive6_housing_link:
-                                          drive6_link:
-                                            pincer_housing_link:
-                                              endpoint_link:
-                                                object:
-                                                  {}
-                                              pincer_output:
-                                                {}
-                                              pincerfinger_left_link:
-                                                {}
-                                              pincerfinger_right_link:
-                                                {}
             camera_depth_optical_frame:
-              {}
+              camera_color_optical_frame:
+                TAG1:
+                  base_link:
+                    pedestal_link:
+                      drive1_link:
+                        drive2_link:
+                          proximal_tube_link:
+                            drive3_housing_link:
+                              drive3_link:
+                                elbow_box_link:
+                                  drive4_housing_link:
+                                    drive4_link:
+                                      distal_tube_link:
+                                        drive5_housing_link:
+                                          drive5_link:
+                                            drive6_housing_link:
+                                              drive6_link:
+                                                pincer_housing_link:
+                                                  endpoint_link:
+                                                    object:
+                                                      object2:
+                                                        object3:
+                                                          {}
+                                                  pincer_output:
+                                                    {}
+                                                  pincerfinger_left_link:
+                                                    {}
+                                                  pincerfinger_right_link:
+                                                    {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -550,7 +554,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.9061853885650635
+      Distance: 0.008777816779911518
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -558,17 +562,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.04671027511358261
-        Y: 0.08939731121063232
-        Z: 1.1175876579727628e-06
+        X: 2.551027774810791
+        Y: -0.7050164937973022
+        Z: 1.468853156438854e-06
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7047967910766602
+      Pitch: 0.0002034902572631836
       Target Frame: base_link
-      Yaw: 0.856776773929596
+      Yaw: 6.201842308044434
     Saved: ~
 Window Geometry:
   Displays:

@@ -74,7 +74,14 @@
       args="-0.015, -0.000, -0.000 -0.002, -0.005, 0.004, 1.000 camera_depth_optical_frame camera_color_optical_frame 100"/>  
   <node pkg="tf" type="static_transform_publisher" name="camera_color_tag" 
      args="-0.637, -0.032, 1.748 0.032, 0.941, 0.008, 0.336 camera_color_optical_frame TAG1 100"/>  
-  <node pkg="tf" type="static_transform_publisher" name="tag_baselink" args="0 0.46 0.46 0.0 0.0 0.0 1 TAG1 base_link 100"/>  
+  <!-- <node pkg="tf" type="static_transform_publisher" name="tag_baselink" args="-0.05 0.45 0.44 0.0 0.0 0.0 1 TAG1 base_link 100"/>  -->
+  <node pkg="tf" type="static_transform_publisher" name="tag_baselink" args="-0.02 0.46 0.47 0.0 0.0 0.0 1 TAG1 base_link 100"/> 
+
   <!--publish a static transform from world to odom-->
-  <node pkg="tf" type="static_transform_publisher" name="ee_camera" args="0.00 0 0 0 0 0 1 endpoint_link object 100"/>    
+  <node pkg="tf" type="static_transform_publisher" name="ee_camera_obj1" args="0.00 0 0 0 0 0 1 endpoint_link object 100"/> 
+  <!-- <node pkg="tf" type="static_transform_publisher" name="ee_camera_obj1" args="0.00 0 0 0 0 -0.70710678 0.70710678 endpoint_link object 100"/>  -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="ee_camera_obj2" args="0.00 0 0 -0.70710678 0 0 0.70710678 object object2 100"/>    
+  <node pkg="tf" type="static_transform_publisher" name="ee_camera_obj3" args="0.00 0 0.03 0 0 0 1 object2 object3 100"/>     -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="ee_camera" args="0.00 0 0 0 0 0 1 endpoint_link TAG2 100"/>     -->
+
 </launch>

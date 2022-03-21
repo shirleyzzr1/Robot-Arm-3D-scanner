@@ -1,3 +1,4 @@
-waypoints: [[0,0,-0.15],[0,0,-0.15],[0,0,-0.15],[0,-0.1,0],[0,-0.5,-0.5],[0,-0.5,-0.5]]
-gripper: [false,false,false,false,false,true]
+waypoints: [[0,0,-0.15],[0,0,-0.15],[0,0,-0.15],[0,-0.1,0],[0,-0.1,-0.1]]
+gripper: [false,false,false,false,true]
+gripper_inv: [true,true,true,true,false]
 gripper_strength: 0.2
