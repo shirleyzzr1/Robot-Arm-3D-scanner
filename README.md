@@ -34,4 +34,10 @@ roslaunch adroit_move adroit_move.launch simulation:=false
 
 <arg name = "simulation" set simulation to false if running on the real robot
 
+Here's a video link of the manipulation of the robot.
 
+https://www.youtube.com/watch?v=LdOaepSkpEQ
+
+Here's the result of the pointcloud data reconstruct
+
+![](./images/fake_scanner.gif)

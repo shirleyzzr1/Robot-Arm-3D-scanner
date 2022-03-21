@@ -84,4 +84,5 @@
   <node pkg="tf" type="static_transform_publisher" name="ee_camera_obj3" args="0.00 0 0.03 0 0 0 1 object2 object3 100"/>     -->
   <!-- <node pkg="tf" type="static_transform_publisher" name="ee_camera" args="0.00 0 0 0 0 0 1 endpoint_link TAG2 100"/>     -->
 
+  <node pkg="adroit_move" type="mover" name="mover"
 </launch>
