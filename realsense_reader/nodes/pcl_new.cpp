@@ -118,7 +118,7 @@ void Message_handle::arm_callback(const std_msgs::String msg){
             icp.setInputTarget(cur_cloud_Ptr);
             // Set the max correspondence distance to 5cm (e.g., correspondences with higher
             // distances will be ignored)
-            icp.setMaxCorrespondenceDistance (0.1);
+            icp.setMaxCorrespondenceDistance (0.3);
             // Set the maximum number of iterations (criterion 1)
             icp.setMaximumIterations (80);
             // Set the transformation epsilon (criterion 2)
@@ -192,7 +192,7 @@ bool Message_handle::save_pc_callback(realsense_reader::savepc::Request &req,rea
 
     crop.setInputCloud(cloudPtr);
     crop.setMin(Eigen::Vector4f(center_x-0.4,center_y-0.4,center_z-0.3,1.0));
-    crop.setMax(Eigen::Vector4f(center_x+0.,center_y+0.4,center_z+0.3,1.0));
+    crop.setMax(Eigen::Vector4f(center_x+0.4,center_y+0.4,center_z+0.3,1.0));
     crop.filter(*cloud_filtered);
 
     filename = "filtered_"+req.filename+".pcd";
